@@ -282,17 +282,24 @@ preview_image *create_tiff_preview(unsigned char *tiff_data, unsigned long tiff_
 
   auto seek_proc = [](thandle_t handle, toff_t off, int whence) -> toff_t {
     tiff_mem_stream *stream = (tiff_mem_stream *)handle;
+    int64_t soff = (int64_t)off;
+    int64_t newpos;
     switch (whence) {
       case SEEK_SET:
-        stream->pos = off;
+        newpos = soff;
         break;
       case SEEK_CUR:
-        stream->pos += off;
+        newpos = (int64_t)stream->pos + soff;
         break;
       case SEEK_END:
-        stream->pos = stream->size + off;
+        newpos = (int64_t)stream->size + soff;
         break;
+      default:
+        return (toff_t)-1;
     }
+    if (newpos < 0) newpos = 0;
+    if (newpos > (int64_t)stream->size) newpos = stream->size;
+    stream->pos = (tmsize_t)newpos;
     return stream->pos;
   };
 
