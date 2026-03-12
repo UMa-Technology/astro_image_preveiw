@@ -1,4 +1,4 @@
-# Indigo Imager Viewer
+# Astro Image Viewer
 
 A command-line tool for previewing and converting astronomical image files. Supports FITS, XISF, TIFF, and RAW image formats.
 Inspired by the image preview functionality of the [indigo_imager](https://github.com/indigo-astronomy/indigo_imager) project, rewritten without Qt dependencies and with extended output capabilities.
